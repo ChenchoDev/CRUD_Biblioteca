@@ -63,22 +63,24 @@ if (!$link) {
                 $filas_afectadas = $resultado->num_rows(); //Guardamos el número de filas afectadas
 
                 if ($ok == false) {
-                    echo"Error al ejecutar la consulta";
+                    echo '<div class = "alert alert-danger" role = "alert">';
+                    echo "No se ha podido realizar la consulta";
+                    echo '</div>';
                 } else {//Si la consulta es correcta empezamos una sesión con el código como identificación
                     if ($filas_afectadas != 0) {//Si la filas afectadas no son 0
                         $ok = $resultado->bind_result($socio, $signatura, $libro, $devolucion, $fecha); //Vinculamos variable nombre(hace referencia a NOMBRE_JUGADOR de tabla jugadores) para poder utilizarla en la consulta preparada
 
                         echo '<table class="table table-bordered">'; //Imprimimos el inicio de la tabla
-                        echo '<tr><th>NOMBRE</th><th>EJEMPLAR</th><th>TITULO</th><th>FECHA PRESTAMO</th><th>FECHA DEVOLUCION</th><th>BORRADO</th></tr>';
+                        echo"<tr><th>Nombre del socio</th><th>La signatura del ejemplar</th><th>Título del libro</th><th>Fecha de devolución</th><th>Fecha del préstamo</th></tr>";
                         while ($resultado->fetch()) {//Recorremos el resultado
                             echo "<tr><td>$socio</td><td>$signatura</td><td>$libro</td><td>$devolucion</td><td>$fecha</td></tr>";
                         }
                         echo "</table>"; //Cerramos la tabla
                     } else {
+
                         echo '<div class = "alert alert-danger" role = "alert">';
                         echo "No existe resultados para esta busqueda";
                         echo '</div>';
-                        
                     }
                 }
 
