@@ -19,7 +19,7 @@ function connect() {
         <meta charset="UTF-8">
         <!-- Bootstrap CSS v5.0.2 -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <title>Biblioteca - Tarea 03 DWES - INDEX</title>
+        <title>Biblioteca - Tarea 03 DWES - Fltro</title>
     </head>
     <body>
         <div class="p-5  bg-light">
