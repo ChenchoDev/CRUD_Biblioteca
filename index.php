@@ -1,5 +1,19 @@
 <!DOCTYPE html>
+<?php
+header("Content-Type: text/html;charset=utf-8");
 
+function connect() {
+
+    $link = mysqli_connect('localhost', 'super', '123456', 'biblioteca');
+
+    if (!$link) {
+        die("No se ha podido establecer conexión con la base de datos: \n"
+                . $db->connect_error . "\n"
+                . $db->connect_errno);
+    }
+    return $link;
+}
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -15,23 +29,24 @@
                 <hr class="my-2">
 
                 <h2>Préstamos</h2>
+
+               
+                    <form action="filtrar.php" method="POST">
+                        <div class="input-group">
+                         
+                            <select class="form-select" id="inputGroupSelect04" name="socio">
+                            <?php include("filtro_socio.php"); ?>
+                        </select>
+                            <select class="form-select" id="inputGroupSelect04" name="libro">
+                            <?php include("filtro_libro.php"); ?>
+                        </select>
+                            
+                            <input class="btn btn-outline-secondary" type="submit" name="filtrar" value="Filtrar">
+                        </div>
+
+                    </form>
+                
                 <?php
-                header("Content-Type: text/html;charset=utf-8");
-
-                function connect() {
-
-                    $link = mysqli_connect('localhost', 'super', '123456', 'biblioteca');
-
-                    if (!$link) {
-                        die("No se ha podido establecer conexión con la base de datos: \n"
-                                . $db->connect_error . "\n"
-                                . $db->connect_errno);
-                    }
-                    return $link;
-                }
-
-                //*****************FILTRO*******************************
-                //
                 ///****************TABLA PRINCIPAL**********************
                 $link = connect();
                 $consulta = "SELECT  soc_nombre , pre_ejemplar, lib_titulo,pre_fecha , pre_devolucion, pre_id
@@ -49,7 +64,7 @@
                     if ($fila[4] == null) {
                         echo '</td><td>';
                         echo '<form action="index.php" method="post">';
-                        echo '<input type="hidden"  name="pre_id" value="' . $fila[5] . '">';
+                        echo '<input type="text"  name="pre_id" value="' . $fila[5] . '" hidden>';
                         echo '<input class="btn btn-success" type="submit" value="DEVOLVER">';
                         echo '</form>';
                     } else {
@@ -57,17 +72,17 @@
                     }
                     echo '<td>';
                     echo '<form action="delete.php?var=cancelar&id=1" method="post"> ';
-                    echo '<input type="hidden" name="pre_id" readonly="readonly" value="' . $fila[5] . '">';
+                    echo '<input type="hidden'
+                    . '" name="pre_id" readonly="readonly" value="' . $fila[5] . '">';
                     echo '<input class="btn btn-danger" type="submit" name="Borrar" value="Borrar">';
                     echo '</form>';
-                   
+
                     echo '</td><tr>';
 
                     if (isset($_POST['pre_id'])) {
                         $devolucion = "UPDATE Prestamos SET pre_devolucion=curdate() WHERE pre_id=" . $_POST['pre_id'];
                         mysqli_query($link, $devolucion);
                         header("Location:index.php");
-                        
                     }
                 }
                 echo '</table>';
