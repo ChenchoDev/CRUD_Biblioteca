@@ -22,7 +22,7 @@ if (!$link) {
                 <h1 class="display-3">Biblioteca</h1>
                 <hr class="my-2">
 
-                <h2>Préstamos</h2>
+                <h2>Nuevo préstamo</h2>
 
 
                 <form action="insert.php" method="POST">
@@ -44,7 +44,9 @@ if (!$link) {
                         $indice = $fila[0] + 1;
                         echo "<input type='text' name='id' value='$indice' hidden>";
                     } else {
-                        echo "Error en la consulta";
+                        echo '<div class = "alert alert-danger" role = "alert">';
+                        echo "No se ha podido realizar la consulta";
+                        echo '</div>';
                     }
                     $resultado->close();
                     ?>
@@ -68,41 +70,41 @@ if (!$link) {
                     </form>
                 </div>
             </div>
-            <?php
-            if (isset($_POST["insertar"])) {
+<?php
+if (isset($_POST["insertar"])) {
 
-                if (isset($_POST["id"])) {
-                    $id = $_POST["id"];
-                }
+    if (isset($_POST["id"])) {
+        $id = $_POST["id"];
+    }
 
-                if (isset($_POST["socios"])) {
-                    $socio = $_POST["socios"];
-                }
-                if (isset($_POST["libros"])) {
-                    $libro = $_POST["libros"];
-                }
-                $devolucion = null;
+    if (isset($_POST["socios"])) {
+        $socio = $_POST["socios"];
+    }
+    if (isset($_POST["libros"])) {
+        $libro = $_POST["libros"];
+    }
+    $devolucion = null;
 
-                $fecha = date("Y-m-d");
+    $fecha = date("Y-m-d");
 
-                $sql = "INSERT INTO Prestamos VALUES(?,?,?,?,?)";
+    $sql = "INSERT INTO Prestamos VALUES(?,?,?,?,?)";
 
-                $resultado = $link->prepare($sql); //Preparamos la consulta
+    $resultado = $link->prepare($sql); //Preparamos la consulta
 
-                $ok = $resultado->bind_param("issis", $id, $fecha, $devolucion, $socio, $libro); //Introducimos el parámetro de la ?
+    $ok = $resultado->bind_param("issis", $id, $fecha, $devolucion, $socio, $libro); //Introducimos el parámetro de la ?
 
-                $ok = $resultado->execute(); //Ejecutamos la consulta
+    $ok = $resultado->execute(); //Ejecutamos la consulta
 
 
-                if ($ok == false) {
-                    echo"Error al ejecutar la consulta";
-                } else {//Si la consulta es correcta empezamos una sesión con el código como identificación
-                    header("location:index.php");
-                }
+    if ($ok == false) {
+        echo"Error al ejecutar la consulta";
+    } else {//Si la consulta es correcta empezamos una sesión con el código como identificación
+        header("Location:index.php");
+    }
 
-                $link->close(); //Cerramos conexión
-            }
-            ?>
+    $link->close(); //Cerramos conexión
+}
+?>
         </div>
     </body>
 </html>

@@ -79,7 +79,7 @@ if (!$link) {
                     } else {
 
                         echo '<div class = "alert alert-danger" role = "alert">';
-                        echo "No existe resultados para esta busqueda";
+                        echo "No existen resultados para esta busqueda";
                         echo '</div>';
                     }
                 }

@@ -1,4 +1,5 @@
 <?php
+
 $link = new mysqli('localhost', 'super', '123456', 'biblioteca');
 
 if (!$link) {
@@ -10,22 +11,24 @@ if (!$link) {
 
 <?php
 
-$sql="SELECT e.eje_signatura, l.lib_titulo FROM Libros l  JOIN Ejemplares e ON l.lib_isbn=e.eje_libro
-WHERE e.eje_signatura NOT IN (SELECT DISTINCT pre_ejemplar FROM Prestamos)";//Consulta SQL preparada buscando los nombres de los jugadores del equipo introducido por formulario
+$sql = "SELECT e.eje_signatura, l.lib_titulo FROM Libros l  JOIN Ejemplares e ON l.lib_isbn=e.eje_libro
+WHERE e.eje_signatura NOT IN (SELECT DISTINCT pre_ejemplar FROM Prestamos)"; //Consulta SQL preparada buscando los nombres de los jugadores del equipo introducido por formulario
 
-$resultado=$link->query($sql);//Preparamos la consulta
+//$actualizar = "UPDATE ejemplares SET lib_titulo='$fila[1]' WHERE eje_signatura='$fila[0]'";
+//mysqli_query($link, $actualizar);
 
-if($resultado){
-while($fila=$resultado->fetch_row()){//Recorremos el resultado
-    echo "<option value='$fila[0]'>$fila[1] - $fila[0]</option>";
-   
+$resultado = $link->query($sql); //Preparamos la consulta
+
+if ($resultado) {
+    while ($fila = $resultado->fetch_row()) {//Recorremos el resultado
+        echo "<option value='$fila[0]'>$fila[1] - $fila[0]</option>";
+
+        
+    }
+} else {
+    echo '<div class = "alert alert-danger" role = "alert">';
+    echo "No se ha podido realizar la consulta";
+    echo '</div>';
 }
-
-}else{
-echo "Error en la consulta";
-}  
-$resultado->close(); 
-
-
-
+$resultado->close();
 ?>

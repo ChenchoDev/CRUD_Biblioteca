@@ -67,6 +67,8 @@ function connect() {
                         echo '<input type="text"  name="pre_id" value="' . $fila[5] . '" hidden>';
                         echo '<input class="btn btn-success" type="submit" value="DEVOLVER">';
                         echo '</form>';
+                        $actualizar = "UPDATE ejemplares SET lib_titulo='$fila[1]' WHERE eje_signatura='$fila[0]'";
+                        mysqli_query($link, $actualizar);
                     } else {
                         echo '</td><td>' . $fila[4] . '</td>';
                     }
@@ -76,7 +78,6 @@ function connect() {
                     . '" name="pre_id" readonly="readonly" value="' . $fila[5] . '">';
                     echo '<input class="btn btn-danger" type="submit" name="Borrar" value="Borrar">';
                     echo '</form>';
-
                     echo '</td><tr>';
 
                     if (isset($_POST['pre_id'])) {
@@ -96,14 +97,14 @@ function connect() {
                 if (isset($_POST['Borrar'])) {
                     if (isset($_POST['pre_id'])) {
                         $pre_id = $_POST['pre_id'];
-                        echo 'borrar';
+                        //echo 'borrar';
 
                         $link = connect();
                         $consulta = "DELETE FROM `prestamos` WHERE `prestamos`.`pre_id` =" . $_POST['pre_id'];
                         $resultado = mysqli_query($link, $consulta);
 
                         if ($resultado) {
-                            echo 'Borrado OK';
+                            // echo 'Borrado OK';
                             header("Location:index.php");
                         } else {
                             die(mysqli_error($link));
