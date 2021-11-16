@@ -30,22 +30,22 @@ function connect() {
 
                 <h2>Préstamos</h2>
 
-               
-                    <form action="filtrar.php" method="POST">
-                        <div class="input-group">
-                         
-                            <select class="form-select" id="inputGroupSelect04" name="socio">
+
+                <form action="filtrar.php" method="POST">
+                    <div class="input-group">
+
+                        <select class="form-select" id="inputGroupSelect04" name="socio">
                             <?php include("filtro_socio.php"); ?>
                         </select>
-                            <select class="form-select" id="inputGroupSelect04" name="libro">
+                        <select class="form-select" id="inputGroupSelect04" name="libro">
                             <?php include("filtro_libro.php"); ?>
                         </select>
-                            
-                            <input class="btn btn-outline-secondary" type="submit" name="filtrar" value="Filtrar">
-                        </div>
 
-                    </form>
-                
+                        <input class="btn btn-outline-secondary" type="submit" name="filtrar" value="Filtrar">
+                    </div>
+
+                </form>
+
                 <?php
                 ///****************TABLA PRINCIPAL**********************
                 $link = connect();
@@ -87,10 +87,30 @@ function connect() {
                 }
                 echo '</table>';
                 ?>
-                <div class="d-grid gap-2 col-6 mx-auto" action="insert.php" method="post">
+                <div class="d-grid gap-2 col-6 mx-auto" action="index.php" method="post">
 
                     <a class="btn btn-primary btn-lg my-2 " href="insert.php" role="button">Nuevo Préstamo</a>       
                 </div>
+                <?php
+                //*************************BORRAR**************************************
+                if (isset($_POST['Borrar'])) {
+                    if (isset($_POST['pre_id'])) {
+                        $pre_id = $_POST['pre_id'];
+                        echo 'borrar';
+
+                        $link = connect();
+                        $consulta = "DELETE FROM `prestamos` WHERE `prestamos`.`pre_id` =" . $_POST['pre_id'];
+                        $resultado = mysqli_query($link, $consulta);
+
+                        if ($resultado) {
+                            echo 'Borrado OK';
+                            header("Location:index.php");
+                        } else {
+                            die(mysqli_error($link));
+                        }
+                    }
+                }
+                ?>
             </div>
         </div>
     </body>
